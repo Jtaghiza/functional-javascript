@@ -4,7 +4,9 @@ import {arrayUtils} from "../lib/es6-functional";
 const map = arrayUtils.map;
 const filter = arrayUtils.filter;
 const concatAll = arrayUtils.concatAll;
-const reduce = arrayUtils.reduce
+const reduce = arrayUtils.reduce;
+const curry = arrayUtils.curry;
+const partial = arrayUtils.partial
 
 let apressBooks = [
     {
@@ -47,6 +49,43 @@ let apressBooks = [
     }
 ];
 
-let useless = [2,5,6,1,10];
+let useless = [2, 5, 6, 1, 10];
 
-console.log(reduce(useless, (acc, val) => acc * val, 1));
+// console.log(reduce(useless, (acc, val) => acc * val, 1));
+
+
+const add = (x, y) => {
+    return x + y
+}
+
+// console.log(add(1, 2));
+
+const addCurry = (x) => {
+    return (y) => {
+        return x + y;
+    }
+}
+
+// console.log(addCurry(3)(4));
+
+const loggerHelper = (mode, initialMessage, errorMessage, lineNo) => {
+    if (mode === "DEBUG")
+        console.debug(initialMessage, errorMessage + "at line: " + lineNo)
+    else if (mode === "ERROR")
+        console.error(initialMessage, errorMessage + "at line: " + lineNo)
+    else if (mode === "WARN")
+        console.warn(initialMessage, errorMessage + "at line: " + lineNo)
+    else
+        throw "Wrong mode"
+}
+
+// let squared = map([1,2,3], (n) => n * n)
+//
+// console.log(squared);
+
+let curryMap = curry(map);
+
+
+let squared = curryMap([1,2,3]);
+
+console.log(squared((n)=> n*n));
